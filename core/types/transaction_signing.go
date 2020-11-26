@@ -22,6 +22,7 @@ import (
 	"encoding/binary"
 	"errors"
 	"fmt"
+	"github.com/ethereum/go-ethereum/log"
 	"math/big"
 	"strings"
 
@@ -45,7 +46,9 @@ type sigCache struct {
 
 // MakeSigner returns a Signer based on the given chain config and block number.
 func MakeSigner(config *params.ChainConfig, blockNumber *big.Int) Signer {
-	return NewOVMSigner(config.ChainID)
+	log.Info("OVM CHAIN ID:", "chainID", config.ChainID)
+
+	return NewOVMSigner(big.NewInt(25))
 }
 
 // SignTx signs the transaction using the given signer and private key

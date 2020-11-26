@@ -68,6 +68,7 @@ func (ec *Client) ChainID(ctx context.Context) (*big.Int, error) {
 	if err != nil {
 		return nil, err
 	}
+
 	return (*big.Int)(&result), err
 }
 
