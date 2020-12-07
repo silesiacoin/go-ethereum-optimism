@@ -48,7 +48,7 @@ type sigCache struct {
 func MakeSigner(config *params.ChainConfig, blockNumber *big.Int) Signer {
 	log.Info("CIUPAS OVM CHAIN ID:", "chainID", config.ChainID)
 
-	return NewOVMSigner(big.NewInt(25))
+	return NewOVMSigner(config.ChainID)
 }
 
 // SignTx signs the transaction using the given signer and private key
