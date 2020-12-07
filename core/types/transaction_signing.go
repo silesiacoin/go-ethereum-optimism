@@ -46,7 +46,7 @@ type sigCache struct {
 
 // MakeSigner returns a Signer based on the given chain config and block number.
 func MakeSigner(config *params.ChainConfig, blockNumber *big.Int) Signer {
-	log.Info("OVM CHAIN ID:", "chainID", config.ChainID)
+	log.Info("CIUPAS OVM CHAIN ID:", "chainID", config.ChainID)
 
 	return NewOVMSigner(big.NewInt(25))
 }
@@ -146,7 +146,8 @@ func (s OVMSigner) Sender(tx *Transaction) (common.Address, error) {
 		return HomesteadSigner{}.Sender(tx)
 	}
 	if tx.ChainId().Cmp(s.chainId) != 0 {
-		log.Error("func (s OVMSigner) Sender", "s.chainId", s.chainId.Int64(), "tx.ChainId()", tx.ChainId().Int64())
+		log.Error("func (s OVMSigner) Sender", "s.chainId", s.chainId.Int64())
+		log.Error("func (s OVMSigner) Sender", "tx.ChainId()", tx.ChainId().Int64())
 		return common.Address{}, ErrInvalidChainId
 	}
 	V := new(big.Int).Sub(tx.data.V, s.chainIdMul)
@@ -251,7 +252,8 @@ func (s EIP155Signer) Sender(tx *Transaction) (common.Address, error) {
 		return HomesteadSigner{}.Sender(tx)
 	}
 	if tx.ChainId().Cmp(s.chainId) != 0 {
-		log.Error("func (s EIP155Signer) Sender", "s.chainId", s.chainId.Int64(), "tx.ChainId()", tx.ChainId().Int64())
+		log.Error("func (s EIP155Signer) Sender", "s.chainId", s.chainId.Int64())
+		log.Error("func (s EIP155Signer) Sender", "tx.ChainId()", tx.ChainId().Int64())
 		return common.Address{}, ErrInvalidChainId
 	}
 	V := new(big.Int).Sub(tx.data.V, s.chainIdMul)
