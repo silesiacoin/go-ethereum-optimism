@@ -146,6 +146,7 @@ func (s OVMSigner) Sender(tx *Transaction) (common.Address, error) {
 		return HomesteadSigner{}.Sender(tx)
 	}
 	if tx.ChainId().Cmp(s.chainId) != 0 {
+		log.Error("func (s OVMSigner) Sender", "s.chainId", s.chainId.Int64(), "tx.ChainId()", tx.ChainId().Int64())
 		return common.Address{}, ErrInvalidChainId
 	}
 	V := new(big.Int).Sub(tx.data.V, s.chainIdMul)
@@ -250,6 +251,7 @@ func (s EIP155Signer) Sender(tx *Transaction) (common.Address, error) {
 		return HomesteadSigner{}.Sender(tx)
 	}
 	if tx.ChainId().Cmp(s.chainId) != 0 {
+		log.Error("func (s EIP155Signer) Sender", "s.chainId", s.chainId.Int64(), "tx.ChainId()", tx.ChainId().Int64())
 		return common.Address{}, ErrInvalidChainId
 	}
 	V := new(big.Int).Sub(tx.data.V, s.chainIdMul)
