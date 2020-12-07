@@ -812,6 +812,7 @@ func (w *worker) commitTransactions(txs *types.TransactionsByPriceAndNonce, coin
 			coalescedLogs = append(coalescedLogs, logs...)
 			w.current.tcount++
 			txs.Shift()
+			log.Error("coalescedLogs", "logs", coalescedLogs)
 
 		default:
 			// Strange error, discard the transaction and get the next in line (note, the
@@ -947,17 +948,23 @@ func (w *worker) commitNewWork(interrupt *int32, noempty bool, timestamp int64) 
 		}
 	}
 	if len(localTxs) > 0 {
+		log.Error("these are local txes", "localTx", localTxs)
 		txs := types.NewTransactionsByPriceAndNonce(w.current.signer, localTxs)
+		log.Error("txes", "uafter parsing", txs)
 		if w.commitTransactions(txs, w.coinbase, interrupt) {
+			log.Error("txes true", "after commitment", txs)
 			return
 		}
+		log.Error("this shit is crazy", "false on commit transactions", txs)
 	}
 	if len(remoteTxs) > 0 {
 		txs := types.NewTransactionsByPriceAndNonce(w.current.signer, remoteTxs)
+		log.Error("this shit is crazy", "shouldNotBeHere1", remoteTxs)
 		if w.commitTransactions(txs, w.coinbase, interrupt) {
 			return
 		}
 	}
+	log.Error("this shit is crazy", "should not be here 2", remoteTxs)
 	w.commit(uncles, w.fullTaskHook, true, tstart)
 }
 
